@@ -4,7 +4,6 @@ namespace Wirelet
 {
     internal static class WireletLogic
     {
-
         private static List<WireletComponent> components = new List<WireletComponent>();
         private static List<WireletLink> links = new List<WireletLink>();
 

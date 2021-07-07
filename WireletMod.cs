@@ -31,8 +31,12 @@ namespace Wirelet
 
             RegisterCustomUtility<GateBoolToFloat>("WL: Gate Bool2Float");
             RegisterCustomUtility<GateAdd>("WL: Gate Add");
+            RegisterCustomUtility<GateSubtract>("WL: Gate Subtract");
+            RegisterCustomUtility<GateMultiply>("WL: Gate Multiply");
+            RegisterCustomUtility<GateDivide>("WL: Gate Divide");
             RegisterCustomUtility<GateTimer>("WL: Gate Timer");
             RegisterCustomUtility<GateSin>("WL: Gate Sin");
+            RegisterCustomUtility<GateSign>("WL: Gate Sign");
             RegisterCustomUtility<GateToColor>("WL: Gate ToColor");
             RegisterCustomUtility<GateColorTest>("WL: Gate Color Test");
 
@@ -58,8 +62,6 @@ namespace Wirelet
             WireletLinkGunsManager.Update();
             WireletLogic.Update();
         }
-
-
 
         public void RegisterCustomUtility<T>(string name) where T : WireletComponent
         {

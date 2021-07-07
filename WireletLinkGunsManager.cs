@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using MelonLoader;
 using StressLevelZero.Interaction;
 using StressLevelZero.Props.Weapons;
@@ -24,11 +24,11 @@ namespace Wirelet
 
         public static void Init()
         {
-            WireletMod.Instance.Harmony.Patch(
+            WireletMod.Instance.HarmonyInstance.Patch(
                 typeof(SpawnGun).GetMethod("OnModeSelect"),
                 postfix: new HarmonyMethod(typeof(WireletLinkGunsManager).GetMethod("OnToolSelected", BindingFlags.NonPublic | BindingFlags.Static)));
 
-            WireletMod.Instance.Harmony.Patch(
+            WireletMod.Instance.HarmonyInstance.Patch(
                 typeof(Gun).GetMethod("OnDestroy"),
                 postfix: new HarmonyMethod(typeof(WireletLinkGunsManager).GetMethod("OnGunDestroyed", BindingFlags.NonPublic | BindingFlags.Static)));
 
@@ -37,7 +37,7 @@ namespace Wirelet
             {
                 MethodInfo easymenuCloseMethod = easymenuMod.GetType().GetMethod("CloseMenu", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (easymenuCloseMethod != null)
-                    WireletMod.Instance.Harmony.Patch(
+                    WireletMod.Instance.HarmonyInstance.Patch(
                         easymenuCloseMethod,
                         postfix: new HarmonyMethod(typeof(WireletLinkGunsManager).GetMethod("EasymenuClosePostfix", BindingFlags.NonPublic | BindingFlags.Static)));
                 else

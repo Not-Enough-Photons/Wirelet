@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using MelonLoader;
 using System;
 using System.Collections.Generic;
@@ -15,16 +15,22 @@ namespace Wirelet
 
         internal static void Init()
         {
-            WireletMod.Instance.Harmony.Patch(
+            WireletMod.Instance.HarmonyInstance.Patch(
                 typeof(PuppetMasta.BehaviourBase).GetMethod("OnEnable"),
                 postfix: new HarmonyMethod(typeof(GameExtensionsManager).GetMethod("TrySetupGameobject", BindingFlags.NonPublic | BindingFlags.Static)));
 
-            WireletMod.Instance.Harmony.Patch(
+            WireletMod.Instance.HarmonyInstance.Patch(
                 typeof(StressLevelZero.Interaction.ButtonToggle).GetMethod("Awake"),
                 prefix: new HarmonyMethod(typeof(GameExtensionsManager).GetMethod("TrySetupGameobject", BindingFlags.NonPublic | BindingFlags.Static)));
+                        
+            WireletMod.Instance.HarmonyInstance.Patch(
+                typeof(StressLevelZero.Props.Weapons.Gun).GetMethod("OnEnable"),
+                prefix: new HarmonyMethod(typeof(GameExtensionsManager).GetMethod("TrySetupGameobject", BindingFlags.NonPublic | BindingFlags.Static)));
 
-            extensionComponents.Add(Il2CppType.Of<PuppetMasta.BehaviourCrablet>().FullName, (typeof(CrabletComponent), 2));
-            extensionComponents.Add(Il2CppType.Of<StressLevelZero.Interaction.ButtonToggle>().FullName, (typeof(ButtonToggleComponent), 0));
+            //extensionComponents.Add(Il2CppType.Of<PuppetMasta.BehaviourCrablet>().FullName, (typeof(CrabletComponent), 0));
+            extensionComponents.Add(Il2CppType.Of<StressLevelZero.Interaction.ButtonToggle>().FullName, (typeof(ButtonToggleComponent), 1));
+            extensionComponents.Add(Il2CppType.Of<PuppetMasta.BehaviourBaseNav>().FullName, (typeof(AIComponent), 2));
+            extensionComponents.Add(Il2CppType.Of<StressLevelZero.Props.Weapons.Gun>().FullName, (typeof(GunComponent), 3));
         }
 
         #region BehaviourBaseNav
@@ -50,7 +56,7 @@ namespace Wirelet
         }
 
         #endregion
-
+        
         private static Transform GetParentRecursive(Transform t, int depth)
         {
             while (t != null && depth > 0)
